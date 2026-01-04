@@ -21,15 +21,22 @@ namespace ApprainERPTerminal
         public static string INVEXTTXNENTRY_TABLE = DatabaseHelper.TABLE_PREFIX + "invexttxnentry ";
         public static string WORKPERIOD_TABLE = DatabaseHelper.TABLE_PREFIX + "workperiod";
         public static string LOG_TABLE = DatabaseHelper.TABLE_PREFIX + "log";
+        public static string VOUCHER_TABLE = DatabaseHelper.TABLE_PREFIX + "voucher";
+
+
         private readonly SQLiteConnection Connection;
 
         public DatabaseHelper()
         {
             this.Connection = new SQLiteConnection("Data Source=" + App.DATA_PATH + "\\" + DatabaseHelper.DATABASE_NAME);
-            if (File.Exists(DatabaseHelper.DATABASE_NAME))
-            {
+            
+            
+
+
+             if (File.Exists(DatabaseHelper.DATABASE_NAME))
+             {
                 return;
-            }
+             }
 
             this.Connection.Open();
             using (SQLiteCommand sqLiteCommand = new SQLiteCommand(this.Connection))
@@ -78,6 +85,28 @@ namespace ApprainERPTerminal
 
                 sqLiteCommand.CommandText = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.LOG_TABLE + " (id INTEGER PRIMARY KEY AUTOINCREMENT,action TEXT, fkey TEXT,fkeytype TEXT,message TEXT,data TEXT,entrydate TEXT,operator INTEGER)";
                 sqLiteCommand.ExecuteNonQuery();
+
+                sqLiteCommand.CommandText =
+                    "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.VOUCHER_TABLE + " (" +
+                    " id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " local_voucher_id TEXT UNIQUE," +
+                    " clientid INTEGER," +
+                    " action TEXT," +
+                    " voucherdate TEXT," +
+                    " total REAL," +
+                    " subject TEXT," +
+                    " note TEXT," +
+                    " trows TEXT," +
+                    " entrycode TEXT," +
+                    " companyac TEXT," +
+                    " operator INTEGER," +
+                    " status TEXT," +
+                    " sync_status TEXT," +
+                    " sync_retry INTEGER DEFAULT 0," +
+                    " createdate TEXT" +
+                    ")";
+                sqLiteCommand.ExecuteNonQuery();
+
 
                 this.Connection.Close();
             }

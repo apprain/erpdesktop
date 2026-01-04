@@ -1,11 +1,15 @@
 ﻿using ApprainERPTerminal.Modules;
+using ApprainERPTerminal.Modules.Voucher;
+using ApprainERPTerminal.Modules.Voucher.UI;
 using ApprainERPTerminal.UI.Common;
 using ApprainERPTerminal.UI.Driver;
 using ApprainERPTerminal.UI.Inventory;
 using ApprainERPTerminal.UI.POS;
 using ApprainERPTerminal.UI.Report;
 using System.Data;
+using System.Linq;
 using System.Reflection;
+
 
 namespace ApprainERPTerminal.UI
 {
@@ -187,6 +191,50 @@ namespace ApprainERPTerminal.UI
         private void salesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new FrmSales().ShowDialog();
+        }
+
+        private void voucherToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            new FrmVoucherEntry().ShowDialog();
+
+            /* var rows = new List<VoucherRowModel>
+ {
+                 new VoucherRowModel
+                 {
+                     PurposeCode = "ADVANCE",
+                     Description = "ADVANCE",
+                     Amount = 5000
+                 }
+             };
+
+
+             var service = new VoucherService();
+             service.CreateVoucher(
+                 clientId: 5,
+                 action: "RECEIVABLE",
+                 voucherDate: DateTime.Today,
+                 total: rows.Sum(r => r.Amount),
+                 subject: "Payment",
+                 note: "",
+                 trowsObject: rows,
+                 entryCode: "ADVANCE",
+                 companyAccount: "INCOME A/C",
+                 operatorId: 102
+             );
+
+             MessageBox.Show("Voucher saved locally (Pending Sync)");
+            */
+
+        }
+
+        private async  void syncVoucherToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new FrmVoucherList().ShowDialog();
+
+          //  FrmVoucherList
+          ///  await new VoucherSyncService().SyncPendingVouchers();
+           /// MessageBox.Show("Voucher sync completed");
         }
     }
 
